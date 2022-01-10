@@ -1,4 +1,4 @@
-group 'com.example'
+group 'com.dish'
 
 apply plugin: 'java'
 apply plugin: 'groovy'
@@ -7,7 +7,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'com.github.hierynomus.license'
 apply plugin: "io.spring.dependency-management"
 
-archivesBaseName = "demo"
+archivesBaseName = "employee-services"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,6 +27,10 @@ buildscript {
 		set('httpclientVersion', '4.5.8')
 		set('com.h2database:h2','1.4.193')
 		set('org.springframework.boot:spring-boot-starter-data-jpa','2.6.0')
+		set('io.springfox:springfox-swagger2','2.9.2')
+		set('io.springfox:springfox-swagger-ui','2.9.2')
+		set('org.springframework.boot:spring-boot-starter-jdbc','2.2.5.RELEASE')
+
 	}
 
 	repositories {
@@ -73,8 +77,13 @@ dependencies {
 			'org.springframework.boot:spring-boot-configuration-processor',
 			'org.springframework.boot:spring-boot-starter-web',
 			"org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
+			'org.springframework.boot:spring-boot-starter-jdbc',
 			'com.h2database:h2:1.4.193',
 			"com.oracle.jdbc:ojdbc7:12.1.0.2",
+			'io.springfox:springfox-swagger2:2.9.2',
+			'io.springfox:springfox-swagger-ui:2.9.2'
+
+
 
 	)
 

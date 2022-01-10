@@ -1,16 +1,13 @@
 package com.dish.assignment.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "TBL_EMPLOYEES")
 public class EmployeeEntity {
 
     @Id
-    @Column(name = "Id")
+    @Column(name = "Id")@GeneratedValue()
     public int empId;
     @Column
     public String firstName;

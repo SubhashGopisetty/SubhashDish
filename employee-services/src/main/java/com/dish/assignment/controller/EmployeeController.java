@@ -5,19 +5,17 @@ import com.dish.assignment.service.EmployeeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 public class EmployeeController {
 
     @Autowired
-    public EmployeeProcessor employeeProcessor;
+    private EmployeeProcessor employeeProcessor;
 
     @GetMapping("/employee-service/employees")
     public ResponseEntity<List<Employee>> getEmployees()
@@ -30,7 +28,7 @@ public class EmployeeController {
         return ResponseEntity.of(Optional.of(employees));
     }
 
-    @GetMapping("/employee-service/employee")
+    @GetMapping("/employee-service/employeesId")
     public ResponseEntity<Employee> getEmployeeById(@RequestParam(value="employeeId") int employeeId){
         Employee employee=employeeProcessor.getEmployeeById(employeeId);
         if(employee==null){

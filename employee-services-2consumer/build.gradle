@@ -1,0 +1,143 @@
+group 'com.dish'
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.github.hierynomus.license'
+apply plugin: "io.spring.dependency-management"
+
+archivesBaseName = "employee-services-2"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+buildscript {
+	ext {
+		set('springBootVersion', '2.1.5.RELEASE')
+		set('lombokVersion', '1.18.6')
+		set('dependencyManagementPluginVersion', '1.0.7.RELEASE')
+
+		set('httpclientVersion', '4.5.8')
+		set('com.h2database:h2','1.4.193')
+		set('org.springframework.boot:spring-boot-starter-data-jpa','2.6.0')
+		set('io.springfox:springfox-swagger2','2.9.2')
+		set('io.springfox:springfox-swagger-ui','2.9.2')
+		set('org.springframework.boot:spring-boot-starter-jdbc','2.2.5.RELEASE')
+
+	}
+
+	repositories {
+		maven {
+			url "https://artifactory.global.dish.com/artifactory/repo"
+		}
+	}
+
+	dependencies {
+		classpath "io.spring.gradle:dependency-management-plugin:$dependencyManagementPluginVersion"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+		classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+	}
+}
+
+repositories {
+	maven {
+		url 'https://artifactory.global.dish.com/artifactory/repo'
+	}
+}
+
+
+import org.gradle.internal.logging.text.StyledTextOutputFactory
+
+import static org.gradle.internal.logging.text.StyledTextOutput.Style
+
+bootRun {
+	sourceResources sourceSets.main
+	//  systemProperty 'logging.config', 'src/main/resources/logback-local.xml'
+}
+
+//colored output borrowed from https://github.com/biasedbit/gradle-plugins/blob/master/colored-test-output.gradle
+System.setProperty('org.gradle.color.failure', 'RED')
+System.setProperty('org.gradle.color.progressstatus', 'YELLOW')
+System.setProperty('org.gradle.color.success', 'GREEN')
+
+dependencies {
+	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
+	compileOnly("org.projectlombok:lombok:$lombokVersion")
+	implementation(
+			'org.springframework.boot:spring-boot-starter-data-jpa',
+			'org.springframework.boot:spring-boot',
+			'org.springframework.boot:spring-boot-configuration-processor',
+			'org.springframework.boot:spring-boot-starter-web',
+			"org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
+			'org.springframework.boot:spring-boot-starter-jdbc',
+			'com.h2database:h2:1.4.193',
+			"com.oracle.jdbc:ojdbc7:12.1.0.2",
+			'io.springfox:springfox-swagger2:2.9.2',
+			'io.springfox:springfox-swagger-ui:2.9.2'
+
+
+
+	)
+
+	testImplementation(
+			"org.springframework.boot:spring-boot-starter-test:$springBootVersion",
+
+			'org.apache.velocity:velocity:1.7'
+	)
+	testCompile"org.projectlombok:lombok:$lombokVersion"
+	testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
+
+task listAllDependencies(type: DependencyReportTask) {}
+
+test {
+	if (project.hasProperty('excludeTests')) {
+		exclude project.property('excludeTests')
+	}
+
+	testLogging {
+		exceptionFormat = 'full'
+	}
+
+	def out = services.get(StyledTextOutputFactory).create('colored-test-output')
+	out.style(Style.Normal)
+
+	beforeSuite { suite ->
+		if (suite.name.startsWith('Test Run') || suite.name.startsWith('Gradle Worker')) return
+		out.println("\n" + suite.name)
+	}
+	afterTest { descriptor, result ->
+		def style
+		if (result.failedTestCount > 0) style = Style.Failure
+		else if (result.skippedTestCount > 0) style = Style.ProgressStatus
+		else style = Style.Success
+
+		out.text('  ').withStyle(style).println(descriptor.name)
+	}
+
+}
+
+task jarWithSources(type: Jar, dependsOn: classes) {
+	//  classifier = 'source'
+	from sourceSets.main.allSource
+	from sourceSets.main.output
+}
+
+task cloneLicenses(type: Exec) {
+	delete 'doc'
+	ignoreExitValue false
+	standardOutput = new ByteArrayOutputStream()
+	errorOutput = new ByteArrayOutputStream()
+	commandLine 'git', 'clone', 'https://gitlab.global.dish.com/contracts/licenses.git', 'doc'
+}
+
+
+defaultTasks 'clean', 'build'

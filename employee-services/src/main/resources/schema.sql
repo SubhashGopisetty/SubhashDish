@@ -1,15 +1,15 @@
 DROP TABLE IF EXISTS TBL_EMPLOYEES;
 
--- create table TBL_EMPLOYEES
--- (
---     EMP_ID INT  PRIMARY KEY,
---     FIRST_NAME VARCHAR not null,
---     LAST_NAME  VARCHAR not null,
---     DOB        VARCHAR not null,
---     AGE        INTEGER not null,
---     SALARY     INTEGER NOT NULL ,
---     PHNO       INTEGER not null
--- );
+create table TBL_EMPLOYEES
+(
+    EMP_ID INT  PRIMARY KEY auto_increment,
+    FIRST_NAME VARCHAR not null,
+    LAST_NAME  VARCHAR not null,
+    DOB        VARCHAR not null,
+    AGE        INTEGER not null,
+    SALARY     INTEGER NOT NULL ,
+    PHNO       INTEGER not null
+);
 -- INSERT INTO  TBL_EMPLOYEES(FIRST_NAME,LAST_NAME,DOB,AGE,SALARY,PHNO) values
 --                                                                   ('subbu','GA','1-09-1999',22,100,123456678),
 --                                                                   ('ramnu','kolla','1-09-2001',20,120,996633211),

@@ -23,13 +23,13 @@ buildscript {
 		set('springBootVersion', '2.1.5.RELEASE')
 		set('lombokVersion', '1.18.6')
 		set('dependencyManagementPluginVersion', '1.0.7.RELEASE')
-
 		set('httpclientVersion', '4.5.8')
 		set('com.h2database:h2','1.4.193')
 		set('org.springframework.boot:spring-boot-starter-data-jpa','2.6.0')
 		set('io.springfox:springfox-swagger2','2.9.2')
 		set('io.springfox:springfox-swagger-ui','2.9.2')
 		set('org.springframework.boot:spring-boot-starter-jdbc','2.2.5.RELEASE')
+
 
 	}
 
@@ -69,19 +69,21 @@ System.setProperty('org.gradle.color.success', 'GREEN')
 
 dependencies {
 	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	compileOnly("org.projectlombok:lombok:$lombokVersion")
 	implementation(
 			'org.springframework.boot:spring-boot-starter-data-jpa',
 			'org.springframework.boot:spring-boot',
 			'org.springframework.boot:spring-boot-configuration-processor',
 			'org.springframework.boot:spring-boot-starter-web',
+
 			"org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
 			'org.springframework.boot:spring-boot-starter-jdbc',
 			'com.h2database:h2:1.4.193',
 			"com.oracle.jdbc:ojdbc7:12.1.0.2",
 			'io.springfox:springfox-swagger2:2.9.2',
-			'io.springfox:springfox-swagger-ui:2.9.2'
+			'io.springfox:springfox-swagger-ui:2.9.2',
+			'org.springframework.boot:spring-boot-configuration-processor'
 
 
 

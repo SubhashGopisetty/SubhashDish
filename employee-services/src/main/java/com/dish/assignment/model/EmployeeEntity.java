@@ -1,24 +1,44 @@
 package com.dish.assignment.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_EMPLOYEES")
 public class EmployeeEntity {
 
     @Id
-    @Column(name = "Id")@GeneratedValue()
+    @Column(name = "Id")
+    @NotNull
     public int empId;
+
+   // @NotNull(message = "First Name is Mandatory")
     @Column
+    @NotNull
     public String firstName;
+
+   // @NotNull(message = "Last Name is Mandatory")
     @Column
+    @NotNull
     public String lastName;
+
+//    @Past
     @Column
     public String dob;
+
+    @Min(value = 18,message = "The min Age was 18 years you are not eligible")
     @Column
     public int age;
+
     @Column
     public int salary;
+
+
+    @Min(value=9,message = "The contact information should not to be blank")
     @Column
     public int phNo;
 
@@ -31,6 +51,15 @@ public class EmployeeEntity {
         this.age = age;
         this.salary = salary;
         this.phNo = phNo;
+    }
+    public EmployeeEntity(EmployeeEntity employeeEntity) {
+        this.empId=employeeEntity.getEmpId();
+        this.firstName=employeeEntity.getFirstName();
+        this.lastName=employeeEntity.getLastName();
+        this.dob =employeeEntity.getDob();
+        this.age =employeeEntity.getAge();
+        this.salary=employeeEntity.getSalary();
+        this.phNo =employeeEntity.getPhNo();
     }
 
     public EmployeeEntity() {

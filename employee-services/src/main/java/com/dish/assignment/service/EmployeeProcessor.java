@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dish.assignment.dao.EmployeeDao.employees;
+
 @Service
 @Slf4j
 public class EmployeeProcessor {
@@ -82,7 +84,25 @@ public Employee getEmployeeById(int id){
         }
     }
     return null;
-
-
     }
+
+    public EmployeeEntity save(EmployeeEntity employeeEntity){
+    Employee employee1= new Employee();
+        employees.add(employeeEntity);
+
+        return employeeEntity;
+    }
+
+    public String addEmployee(EmployeeEntity emp)
+    {
+        String response=null;
+        if(employeeDao.addEmployee(emp)){
+            response="Successfully added";
+        }
+        else {
+            return response="Something went wrong, Not added, please try again";
+        }
+        return response;
+    }
+
 }

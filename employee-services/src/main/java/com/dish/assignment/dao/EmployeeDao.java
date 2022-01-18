@@ -15,6 +15,9 @@ public class EmployeeDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    private final String Get_All="SELECT * FROM TBL_EMPLOYEES";
+    private final String Insert_Employee="INSERT INTO TBL_EMPLOYEES(FIRST_NAME,LAST_NAME,DOB,AGE,SALARY,PHNO) values(?,?,?,?,?,?)";
+
   public static List<EmployeeEntity> employees =new ArrayList<>();
 //    static {
 //        employees.add(new EmployeeEntity(1,"subbu","GA","1-09-1999",22,4000,123456678));
@@ -42,11 +45,25 @@ public class EmployeeDao {
 
         //return employees;
 
-    return jdbcTemplate.query("SELECT * FROM TBL_EMPLOYEES",rowMapper);
+    return jdbcTemplate.query(Get_All,rowMapper);
+
     }
+
+    public boolean addEmployee(EmployeeEntity e)
+    {
+       if( jdbcTemplate.update(Insert_Employee,e.getFirstName(),e.getLastName(),e.getDob(),e.getAge(),e.getSalary(),e.getPhNo())>0)
+           return true;
+       else {
+           return false;
+       }
+    }
+
+
+
 //    public EmployeeEntity employeeDataById(int id){
 //        return jdbcTemplate.query("SELECT * FROM TBL_EMPLOYEES WHERE EMP_ID=id",rowMapper);
 //    }
+
 
 
 }

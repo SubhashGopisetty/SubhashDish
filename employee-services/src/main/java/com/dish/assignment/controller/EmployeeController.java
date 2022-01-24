@@ -52,7 +52,7 @@ public class EmployeeController {
 //        else if (EmployeeDao.employees.size()<employeeId){
 //            throw new NoSuchElementException();
 //        }
-        if(EmployeeDao.employees.size()<employeeId)
+        if(employee==null)
         {
             throw new NoSuchElementException();
         }

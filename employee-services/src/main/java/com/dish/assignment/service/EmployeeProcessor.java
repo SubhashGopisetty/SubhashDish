@@ -16,9 +16,13 @@ import static com.dish.assignment.dao.EmployeeDao.employees;
 @Slf4j
 public class EmployeeProcessor {
 
-    @Autowired
+//    @Autowired
     private EmployeeDao employeeDao;
 
+    @Autowired
+    public EmployeeProcessor(EmployeeDao employeeDao1){
+        this.employeeDao=employeeDao1;
+    }
 
 public List<Employee> getEmployees(){
     log.info("Start of get Employee method {}",2);
